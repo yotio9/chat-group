@@ -1,0 +1,25 @@
+services:
+  db:
+    image: postgres:17
+    container_name: chat_group_db
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: chat_group
+      POSTGRES_USER: chat_admin
+      POSTGRES_PASSWORD: change_this_password
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U chat_admin -d chat_group"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
