@@ -16,6 +16,7 @@ dependencies = [
     "djangorestframework>=3.18.3",
     "dotenv>=0.9.9",
     "psycopg[binary]>=3.3.8",
+    "tree>=0.2.4",
 ]
 
 [project.scripts]

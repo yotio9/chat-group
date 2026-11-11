@@ -1,0 +1,465 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --background: #090b13;
+    --surface: #111522;
+    --surface-light: #191f30;
+    --primary: #8274ff;
+    --primary-light: #a49aff;
+    --text: #f5f5fa;
+    --muted: #9298aa;
+    --border: rgba(255, 255, 255, 0.09);
+    --danger: #ff7272;
+    --success: #70e3a4;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--background);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+/* NAVIGATION */
+
+.navbar {
+    height: 80px;
+    padding: 0 7%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Manrope', sans-serif;
+    font-size: 23px;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.logo-icon {
+    width: 36px;
+    height: 36px;
+    display: grid;
+    place-items: center;
+    background: var(--primary);
+    border-radius: 11px;
+    color: white;
+}
+
+.logo-dot {
+    color: var(--primary-light);
+}
+
+.nav-text {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.nav-text a {
+    color: var(--primary-light);
+    font-weight: 700;
+    margin-left: 5px;
+}
+
+/* PAGE */
+
+.register-container {
+    min-height: calc(100vh - 80px);
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+}
+
+/* INTRODUCTION */
+
+.register-intro {
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 70px 12%;
+    background: linear-gradient(145deg, #111522, #17152b);
+}
+
+.intro-content {
+    position: relative;
+    z-index: 2;
+    max-width: 440px;
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--primary-light);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+    background: var(--success);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--success);
+}
+
+.register-intro h1 {
+    font-family: 'Manrope', sans-serif;
+    font-size: clamp(38px, 4vw, 55px);
+    line-height: 1.2;
+    letter-spacing: -2px;
+}
+
+.register-intro p {
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.9;
+    margin-top: 22px;
+}
+
+.intro-benefits {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 40px;
+}
+
+.benefit {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    font-size: 13px;
+    color: #d8d9e2;
+}
+
+.benefit-icon {
+    width: 23px;
+    height: 23px;
+    display: grid;
+    place-items: center;
+    background: rgba(130, 116, 255, 0.15);
+    border-radius: 50%;
+    color: var(--primary-light);
+    font-size: 12px;
+}
+
+.intro-decoration {
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    right: -100px;
+    bottom: -100px;
+}
+
+.decoration-circle {
+    position: absolute;
+    border: 1px solid rgba(164, 154, 255, 0.13);
+    border-radius: 50%;
+}
+
+.circle-one {
+    inset: 0;
+}
+
+.circle-two {
+    inset: 45px;
+}
+
+.decoration-symbol {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: rgba(164, 154, 255, 0.08);
+    font-family: 'Manrope', sans-serif;
+    font-size: 170px;
+    font-weight: 800;
+}
+
+/* FORM SECTION */
+
+.form-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 55px 30px 25px;
+}
+
+.form-card {
+    width: 100%;
+    max-width: 460px;
+}
+
+.form-heading {
+    margin-bottom: 30px;
+}
+
+.form-label {
+    color: var(--primary-light);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.form-heading h2 {
+    font-family: 'Manrope', sans-serif;
+    font-size: 31px;
+    letter-spacing: -1px;
+    margin-top: 12px;
+}
+
+.form-heading p {
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: 9px;
+    line-height: 1.7;
+}
+
+/* INPUTS */
+
+.form-group {
+    margin-bottom: 19px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 9px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #e1e2eb;
+}
+
+.form-group input {
+    width: 100%;
+    height: 49px;
+    padding: 0 15px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    outline: none;
+    color: white;
+    font-family: inherit;
+    font-size: 13px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input::placeholder {
+    color: #626a7e;
+}
+
+.form-group input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(130, 116, 255, 0.1);
+}
+
+.form-group > small {
+    display: block;
+    margin-top: 7px;
+    color: #737b90;
+    font-size: 10px;
+}
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-wrapper input {
+    padding-right: 65px;
+}
+
+.toggle-password {
+    position: absolute;
+    top: 50%;
+    right: 14px;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: var(--primary-light);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+/* PASSWORD STRENGTH */
+
+.password-strength {
+    margin-top: 10px;
+}
+
+.strength-track {
+    width: 100%;
+    height: 4px;
+    background: #252b3c;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.strength-track span {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: var(--danger);
+    border-radius: inherit;
+    transition: width 0.3s, background 0.3s;
+}
+
+.password-strength small {
+    display: block;
+    margin-top: 6px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.password-message {
+    min-height: 14px;
+}
+
+.password-message.success {
+    color: var(--success);
+}
+
+.password-message.error {
+    color: var(--danger);
+}
+
+/* CONDITIONS */
+
+.terms {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 23px 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.7;
+    cursor: pointer;
+}
+
+.terms input {
+    width: 15px;
+    height: 15px;
+    margin-top: 2px;
+    accent-color: var(--primary);
+    flex-shrink: 0;
+}
+
+.terms a {
+    color: var(--primary-light);
+}
+
+/* SUBMIT */
+
+.submit-button {
+    width: 100%;
+    height: 51px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    background: var(--primary);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.submit-button:hover {
+    background: #7060ed;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(130, 116, 255, 0.2);
+}
+
+.submit-button span {
+    font-size: 18px;
+}
+
+.form-error {
+    color: var(--danger);
+    font-size: 11px;
+    margin-bottom: 12px;
+}
+
+.form-footer {
+    margin-top: 25px;
+    text-align: center;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.form-footer a {
+    color: var(--primary-light);
+    font-weight: 700;
+    margin-left: 4px;
+}
+
+.copyright {
+    margin-top: 35px;
+    color: #626a7e;
+    font-size: 10px;
+    text-align: center;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+    .register-container {
+        grid-template-columns: 1fr;
+    }
+
+    .register-intro {
+        display: none;
+    }
+
+    .form-section {
+        min-height: calc(100vh - 80px);
+        padding: 55px 25px 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        height: 70px;
+        padding: 0 5%;
+    }
+
+    .logo {
+        font-size: 20px;
+    }
+
+    .nav-text {
+        font-size: 11px;
+    }
+
+    .form-section {
+        padding: 40px 20px 25px;
+    }
+
+    .form-heading h2 {
+        font-size: 27px;
+    }
+}

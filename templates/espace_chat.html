@@ -1,0 +1,290 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b141a">
+
+    <title>Connect — Messagerie</title>
+
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+    <script src="{% static 'js/chat.js' %}" defer></script>
+</head>
+
+<body>
+
+<div class="app-shell" id="appShell">
+
+    <!-- BARRE LATERALE -->
+    <aside class="sidebar" id="sidebar">
+
+        <header class="sidebar-header">
+
+            <a href="/" class="brand">
+                <span class="brand-mark">C</span>
+                <span class="brand-name">connect<span>.</span></span>
+            </a>
+
+            <div class="sidebar-actions">
+                <button type="button" class="icon-button" id="directoryBtn" title="Annuaire des utilisateurs">♙</button>
+                <button type="button" class="icon-button" id="newGroupBtn" title="Créer un groupe">＋</button>
+            </div>
+
+        </header>
+
+        <!-- PROFIL -->
+        <div class="profile-card">
+            <div class="avatar avatar-profile">
+                {% if request.user.avatar %}
+                    <img class="avatar-photo" src="{{ request.user.avatar }}" alt="">
+                {% else %}
+                    {{ profile_name|slice:":1"|upper }}
+                {% endif %}
+            </div>
+
+            <div class="profile-info">
+                <strong>{{ profile_name }}</strong>
+                {% if request.user.get_full_name %}
+                    <span>@{{ request.user.username }}</span>
+                {% elif request.user.bio %}
+                    <span>{{ request.user.bio }}</span>
+                {% endif %}
+            </div>
+            <form method="post" action="{% url 'deconnexion' %}">
+                {% csrf_token %}
+                <button class="logout-button" type="submit">Déconnexion</button>
+            </form>
+        </div>
+
+        <!-- RECHERCHE -->
+        <div class="search-wrap">
+            <span class="search-symbol">⌕</span>
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Rechercher une conversation..."
+                autocomplete="off"
+            >
+            <span class="search-shortcut">/</span>
+        </div>
+
+        <!-- TITRE ET FILTRES -->
+        <div class="list-heading">
+            <h1>Messages</h1>
+            <span id="conversationCount">{{ conversations|length }} conversation{% if conversations|length != 1 %}s{% endif %}</span>
+        </div>
+
+        <div class="filter-list">
+            <button type="button" class="filter-btn active" data-filter="all">Toutes</button>
+            <button type="button" class="filter-btn" data-filter="unread">Non lues</button>
+            <button type="button" class="filter-btn" data-filter="groups">Groupes</button>
+        </div>
+
+        <!-- LISTE DES CONVERSATIONS -->
+        <div class="conversation-list" id="conversationList">
+    {% for conversation in conversations %}
+        {% with peer=conversation.other_members|first %}
+            <button
+                type="button"
+                class="conversation-item"
+                data-id="{{ conversation.id }}"
+                data-type="{{ conversation.type }}"
+                data-name="{% if conversation.type == 'group' %}{{ conversation.name|default:'Groupe sans nom' }}{% elif peer %}{{ peer.user.get_full_name|default:peer.user.username }}{% else %}Conversation privée #{{ conversation.id }}{% endif %}"
+                data-initial="{% if conversation.type == 'group' %}{{ conversation.name|default:'G'|slice:':1' }}{% elif peer %}{{ peer.user.first_name|default:peer.user.username|slice:':1' }}{% else %}C{% endif %}"
+                data-avatar="{% if peer and conversation.type == 'private' %}{{ peer.user.avatar }}{% endif %}"
+                data-color="violet"
+                data-status="{% if conversation.type == 'group' %}Groupe · {{ conversation.other_members|length|add:'1' }} membres{% else %}Conversation privée{% endif %}"
+                data-unread="0"
+            >
+                <div class="conversation-avatar avatar-violet">
+                    {% if conversation.type == "private" and peer and peer.user.avatar %}
+                        <img class="avatar-photo" src="{{ peer.user.avatar }}" alt="">
+                    {% elif conversation.type == "group" %}
+                        {{ conversation.name|default:"G"|slice:":1" }}
+                    {% elif peer %}
+                        {{ peer.user.first_name|default:peer.user.username|slice:":1" }}
+                    {% else %}
+                        C
+                    {% endif %}
+                </div>
+
+                <div class="conversation-content">
+                    <div class="conversation-top">
+                        <strong>
+                            {% if conversation.type == "group" %}
+                                {{ conversation.name|default:"Groupe sans nom" }}
+                            {% elif peer %}
+                                {{ peer.user.get_full_name|default:peer.user.username }}
+                            {% else %}
+                                Conversation privée #{{ conversation.id }}
+                            {% endif %}
+                        </strong>
+                        {% with last_message=conversation.latest_messages|first %}
+                            {% if last_message %}
+                                <span class="conversation-time">{{ last_message.created_at|date:"H:i" }}</span>
+                            {% endif %}
+                        {% endwith %}
+                    </div>
+
+                    <div class="conversation-bottom">
+                        <span class="conversation-preview">
+                            {% with last_message=conversation.latest_messages|first %}
+                                {% if last_message %}
+                                    {{ last_message.content|truncatechars:35 }}
+                                {% else %}
+                                    Aucune discussion pour le moment
+                                {% endif %}
+                            {% endwith %}
+                        </span>
+                    </div>
+                </div>
+            </button>
+        {% endwith %}
+    {% empty %}
+        <p class="sidebar-empty" id="conversationEmptyState">
+            Aucune conversation pour le moment.
+        </p>
+    {% endfor %}
+        </div>
+
+        <footer class="sidebar-footer">
+            <span>Chat Group</span>
+        </footer>
+
+    </aside>
+
+    <!-- ZONE PRINCIPALE -->
+    <main class="chat-panel">
+
+        <!-- EN-TETE DE CONVERSATION -->
+        <header class="chat-header">
+
+            <button
+                type="button"
+                class="icon-button mobile-back"
+                id="mobileBackBtn"
+                title="Retour aux conversations"
+            >
+                ←
+            </button>
+
+            <div class="chat-identity">
+                <div class="conversation-avatar avatar-violet" id="chatAvatar"></div>
+
+                <div class="identity-info">
+                    <h2 id="chatName">Sélectionnez une conversation</h2>
+                    <span id="chatStatus" class="online-status">Vos messages s’afficheront ici</span>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button type="button" class="icon-button" id="searchMessagesBtn" title="Rechercher">⌕</button>
+                <button type="button" class="icon-button" id="chatInfoBtn" title="Informations">ⓘ</button>
+                <button type="button" class="icon-button" id="chatMoreBtn" title="Options">•••</button>
+            </div>
+
+        </header>
+
+        <!-- HISTORIQUE -->
+        <section class="messages" id="messagesContainer">
+
+            <div class="date-divider">
+                <span></span>
+            </div>
+
+        </section>
+
+        <!-- COMPOSITION DU MESSAGE -->
+        <footer class="composer-area">
+
+            <div class="attachment-preview" id="attachmentPreview" hidden>
+                <span id="attachmentName"></span>
+                <button type="button" id="removeAttachmentBtn" title="Retirer">×</button>
+            </div>
+
+            <form class="composer" id="messageForm">
+                {% csrf_token %}
+
+                <button type="button" class="composer-action" id="emojiBtn" title="Ajouter un emoji">
+                    ☺
+                </button>
+
+                <textarea
+                    id="messageInput"
+                    placeholder="Écrire un message..."
+                    rows="1"
+                    maxlength="5000"
+                ></textarea>
+
+                <input type="file" id="fileInput" hidden>
+
+                <button type="button" class="composer-action" id="attachBtn" title="Joindre un fichier">
+                    +
+                </button>
+
+                <button type="submit" class="send-button" title="Envoyer">
+                    ↑
+                </button>
+
+            </form>
+
+            <p class="composer-note">Entrée pour envoyer · Maj + Entrée pour aller à la ligne</p>
+
+        </footer>
+
+    </main>
+
+</div>
+
+<dialog class="chat-dialog" id="userDirectoryDialog" aria-labelledby="directoryTitle">
+    <div class="dialog-header">
+        <div>
+            <h2 id="directoryTitle">Annuaire</h2>
+            <p>Utilisateurs inscrits sur Chat Group</p>
+        </div>
+        <button type="button" class="icon-button" id="closeDirectoryBtn" aria-label="Fermer">×</button>
+    </div>
+    <label class="dialog-search">
+        <span>Rechercher</span>
+        <input type="search" id="directorySearchInput" placeholder="Nom ou nom d'utilisateur">
+    </label>
+    <p class="dialog-status" id="directoryStatus" aria-live="polite"></p>
+    <div class="directory-user-list" id="directoryUserList"></div>
+    <button type="button" class="dialog-secondary" id="directoryLoadMoreBtn" hidden>
+        Charger plus
+    </button>
+</dialog>
+
+<dialog class="chat-dialog" id="groupDialog" aria-labelledby="groupTitle">
+    <form id="groupForm">
+        <div class="dialog-header">
+            <div>
+                <h2 id="groupTitle">Créer un groupe</h2>
+                <p>Choisissez un nom et au moins un autre membre.</p>
+            </div>
+            <button type="button" class="icon-button" id="closeGroupBtn" aria-label="Fermer">×</button>
+        </div>
+        <label class="dialog-search">
+            <span>Nom du groupe</span>
+            <input type="text" id="groupNameInput" maxlength="255" required>
+        </label>
+        <label class="dialog-search">
+            <span>Rechercher des membres</span>
+            <input type="search" id="groupSearchInput" placeholder="Nom ou nom d'utilisateur">
+        </label>
+        <p class="dialog-status" id="groupStatus" aria-live="polite"></p>
+        <div class="directory-user-list" id="groupUserList"></div>
+        <button type="button" class="dialog-secondary" id="groupLoadMoreBtn" hidden>
+            Charger plus
+        </button>
+        <div class="dialog-actions">
+            <button type="button" class="dialog-secondary" id="cancelGroupBtn">Annuler</button>
+            <button type="submit" class="dialog-primary" id="createGroupBtn">Créer le groupe</button>
+        </div>
+    </form>
+</dialog>
+
+</body>
+</html>

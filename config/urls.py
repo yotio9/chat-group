@@ -17,6 +17,30 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from accounts import views as account_views
+from conversations import views as conversation_views
+from messaging import views as messaging_views
+
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
+    path("", account_views.espace_chat, name="home"),
+    path("espace_chat/", account_views.espace_chat, name="espace_chat"),
+    path("accueil/", account_views.accueil, name="accueil"),
+    path("inscription/", account_views.inscription, name="inscription"),
+    path("connextion/", account_views.connextion, name="connextion"),
+    path("deconnexion/", account_views.deconnexion, name="deconnexion"),
+    path("users/", conversation_views.user_directory, name="user_directory"),
+    path(
+        "conversation/private/",
+        conversation_views.start_private_conversation,
+        name="start_private_conversation",
+    ),
+    path(
+        "conversation/group/create/",
+        conversation_views.create_group_conversation,
+        name="create_group_conversation",
+    ),
+    path("conversation/<int:conversation_id>/", messaging_views.get_messages, name="get_messages"),
+    path("conversation/<int:conversation_id>/send/",messaging_views.send_message,name="send_message"),
 ]

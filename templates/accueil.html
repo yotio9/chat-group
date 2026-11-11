@@ -1,0 +1,199 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect — Messagerie instantanée</title>
+
+    <link rel="stylesheet" href="{% static 'css/accueil.css' %}">
+    <script src="{% static 'js/accueil.js' %}" defer></script>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <a href="#" class="logo">
+            <span class="logo-icon">C</span>
+            <span>connect<span class="logo-dot">.</span></span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="#features">Fonctionnalités</a>
+            <a href="#about">À propos</a>
+        </nav>
+
+        <div class="nav-actions">
+            <a href="{% url 'connextion' %}" class="login-link">Connexion</a>
+            <a href="{% url 'inscription'%}" class="btn btn-small">Créer un compte</a>
+        </div>
+
+        <button class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu">
+            ☰
+        </button>
+    </header>
+
+    <main>
+
+        <section class="hero" id="about">
+
+            <div class="hero-content">
+
+                <div class="eyebrow">
+                    <span class="status-dot"></span>
+                    LA MESSAGERIE, AUTREMENT
+                </div>
+
+                <h1>
+                    Vos conversations.<br>
+                    Votre <span>univers.</span>
+                </h1>
+
+                <p class="hero-description">
+                    Connectez-vous avec les personnes qui comptent.
+                    Discutez en privé, échangez en groupe et partagez
+                    vos idées dans un espace simple et intuitif.
+                </p>
+
+                <div class="hero-actions">
+                    <a href="/register/" class="btn">
+                        Commencer gratuitement
+                        <span>→</span>
+                    </a>
+
+                    <a href="#features" class="secondary-link">
+                        Découvrir les fonctionnalités
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div>
+                        <strong>01</strong>
+                        <span>Simple à utiliser</span>
+                    </div>
+                    <div>
+                        <strong>02</strong>
+                        <span>Discussions privées</span>
+                    </div>
+                    <div>
+                        <strong>03</strong>
+                        <span>Groupes et échanges</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="hero-visual">
+
+                <div class="visual-glow"></div>
+
+                <div class="chat-window">
+
+                    <div class="chat-header">
+                        <div class="chat-user">
+                            <div class="avatar avatar-purple">M</div>
+                            <div>
+                                <strong>Marie Dupont</strong>
+                                <span><i></i> En ligne</span>
+                            </div>
+                        </div>
+
+                        <div class="chat-options">•••</div>
+                    </div>
+
+                    <div class="chat-date">Aujourd'hui</div>
+
+                    <div class="message received">
+                        Salut ! Comment tu vas ?
+                        <span>10:42</span>
+                    </div>
+
+                    <div class="message sent">
+                        Très bien ! Et toi ?
+                        <span>10:43 ✓✓</span>
+                    </div>
+
+                    <div class="message received">
+                        Super ! On se retrouve ce soir ?
+                        <span>10:44</span>
+                    </div>
+
+                    <div class="message sent">
+                        Bien sûr, à tout à l'heure !
+                        <span>10:45 ✓✓</span>
+                    </div>
+
+                    <div class="typing">
+                        <span></span><span></span><span></span>
+                    </div>
+
+                    <div class="chat-input">
+                        <span>Écrire un message...</span>
+                        <button aria-label="Envoyer">↑</button>
+                    </div>
+
+                </div>
+
+                <div class="floating-card">
+                    <div class="floating-icon">✦</div>
+                    <div>
+                        <strong>Tout est connecté</strong>
+                        <span>Vos échanges au même endroit</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+        <section class="features" id="features">
+
+            <div class="section-heading">
+                <span class="section-label">PENSÉ POUR VOUS</span>
+                <h2>Tout ce qu'il faut pour communiquer.</h2>
+                <p>Une expérience fluide, sans complexité inutile.</p>
+            </div>
+
+            <div class="feature-grid">
+
+                <article class="feature-card">
+                    <div class="feature-icon purple">↗</div>
+                    <h3>Conversations privées</h3>
+                    <p>Échangez directement avec vos contacts dans un espace personnel.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon blue">◎</div>
+                    <h3>Discussions de groupe</h3>
+                    <p>Créez des groupes et rassemblez vos proches ou vos équipes.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon green">ϟ</div>
+                    <h3>Communication instantanée</h3>
+                    <p>Retrouvez vos conversations et échangez facilement en temps réel.</p>
+                </article>
+
+            </div>
+
+        </section>
+
+        <section class="cta-section">
+            <h2>Prêt à entrer dans la conversation ?</h2>
+            <p>Rejoignez Connect et commencez à échanger.</p>
+            <a href="/register/" class="btn">Créer mon compte <span>→</span></a>
+        </section>
+
+    </main>
+
+    <footer>
+        <a href="#" class="logo">
+            <span class="logo-icon">C</span>
+            <span>connect<span class="logo-dot">.</span></span>
+        </a>
+        <p>© 2026 Connect. Tous droits réservés.</p>
+    </footer>
+
+</body>
+</html>

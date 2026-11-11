@@ -1,0 +1,192 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Connexion — Connect</title>
+
+    <!-- On réutilise le CSS de l'inscription -->
+    <link rel="stylesheet" href="{% static 'css/inscription.css' %}">
+    <script src="{% static 'js/inscription.js' %}" defer></script>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <a href="/" class="logo">
+            <span class="logo-icon">C</span>
+            <span>connect<span class="logo-dot">.</span></span>
+        </a>
+
+        <p class="nav-text">
+            Pas encore membre ?
+            <a href="{% url 'inscription' %}">Créer un compte</a>
+        </p>
+    </header>
+
+    <main class="register-container">
+
+        <section class="register-intro">
+            <div class="intro-content">
+
+                <span class="eyebrow">
+                    <span class="status-dot"></span>
+                    HEUREUX DE VOUS RETROUVER
+                </span>
+
+                <h1>
+                    Vos conversations
+                    vous attendent.
+                </h1>
+
+                <p>
+                    Retrouvez vos contacts, reprenez vos discussions
+                    et restez connecté avec les personnes qui comptent.
+                </p>
+
+                <div class="intro-benefits">
+                    <div class="benefit">
+                        <span class="benefit-icon">✓</span>
+                        <span>Retrouvez vos conversations</span>
+                    </div>
+
+                    <div class="benefit">
+                        <span class="benefit-icon">✓</span>
+                        <span>Échangez avec vos groupes</span>
+                    </div>
+
+                    <div class="benefit">
+                        <span class="benefit-icon">✓</span>
+                        <span>Restez connecté partout</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="intro-decoration">
+                <span class="decoration-circle circle-one"></span>
+                <span class="decoration-circle circle-two"></span>
+                <span class="decoration-symbol">C</span>
+            </div>
+        </section>
+
+        <section class="form-section">
+
+            <div class="form-card">
+
+                <div class="form-heading">
+                    <span class="form-label">VOTRE ESPACE VOUS ATTEND</span>
+
+                    <h2>Bon retour !</h2>
+
+                    <p>
+                        Connectez-vous pour accéder à vos conversations.
+                    </p>
+                </div>
+                {% if messages %}
+    <div class="messages-container" style="margin-bottom: 20px;">
+        {% for message in messages %}
+            
+            <!-- CAS 1 : C'est un message d'ERREUR -->
+            {% if message.tags == 'error' %}
+                <div class="alert-danger" style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 12px; border-radius: 4px;">
+                    ❌ {{ message }}
+                </div>
+            {% endif %}
+
+            <!-- CAS 2 : C'est un message de SUCCÈS -->
+            {% if message.tags == 'success' %}
+                <div class="alert-success" style="color: #155724; background-color: #d4edda; border: 1px solid #c3e6cb; padding: 12px; border-radius: 4px;">
+                    ✅ {{ message }}
+                </div>
+            {% endif %}
+
+        {% endfor %}
+    </div>
+{% endif %}
+
+
+                <form id="loginForm" method="POST" action="{% url 'connextion' %}">
+                    {% csrf_token %}
+                    {% if request.GET.next %}
+                        <input type="hidden" name="next" value="{{ request.GET.next }}">
+                    {% endif %}
+
+                    <div class="form-group">
+                        <label for="username">Nom d'utilisateur</label>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Votre nom d'utilisateur"
+                            autocomplete="username"
+                            required
+                            autofocus
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+
+                        <div class="password-wrapper">
+                            <input
+                                type="password"
+                                id="password"
+                                name="password"
+                                placeholder="Votre mot de passe"
+                                autocomplete="current-password"
+                                required
+                            >
+
+                            <button
+                                type="button"
+                                class="toggle-password"
+                                data-target="password"
+                                aria-label="Afficher le mot de passe"
+                            >
+                                Voir
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="login-options">
+                        <label class="remember-me">
+                            <input type="checkbox" name="remember_me">
+                            <span>Se souvenir de moi</span>
+                        </label>
+
+                        <a href="#" class="forgot-password">
+                            Mot de passe oublié ?
+                        </a>
+                    </div>
+
+                    <p id="formError" class="form-error" role="alert"></p>
+
+                    <button type="submit" class="submit-button">
+                        Se connecter
+                        <span>→</span>
+                    </button>
+
+                </form>
+
+                <div class="form-footer">
+                    Vous n'avez pas encore de compte ?
+                    <a href="/register/">Inscrivez-vous</a>
+                </div>
+
+            </div>
+
+            <p class="copyright">
+                © 2026 Connect. Tous droits réservés.
+            </p>
+
+        </section>
+
+    </main>
+
+</body>
+</html>
